@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useReveal } from "@/hooks/use-reveal"
 import { MagneticButton } from "@/components/magnetic-button"
 
 const questions = [
@@ -85,8 +84,13 @@ const questions = [
   },
 ]
 
+const socials = [
+  { label: "Max", short: "MAX", href: "https://max.ru/id5404105079_gos6" },
+  { label: "Telegram", short: "TG", href: "https://t.me/Youth_Center_Culture" },
+  { label: "ВКонтакте", short: "VK", href: "https://vk.com/mckit_sgugit" },
+]
+
 export function QuizSection() {
-  const { ref, isVisible } = useReveal(0.2)
   const [started, setStarted] = useState(false)
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
@@ -100,9 +104,7 @@ export function QuizSection() {
     if (selected !== null) return
     setSelected(idx)
     setShowFact(true)
-    if (idx === question.correct) {
-      setScore((s) => s + 1)
-    }
+    if (idx === question.correct) setScore((s) => s + 1)
   }
 
   const handleNext = () => {
@@ -133,172 +135,136 @@ export function QuizSection() {
   }
 
   return (
-    <section
-      ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start items-center justify-center px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
-    >
-      <div className="mx-auto w-full max-w-5xl">
-        {!started ? (
-          <div
-            className={`text-center transition-all duration-700 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
-            }`}
-          >
-            <div className="mb-4 inline-block rounded-full border border-foreground/20 bg-foreground/10 px-4 py-1.5 backdrop-blur-md">
+    <section className="w-screen shrink-0 snap-start overflow-y-auto">
+      <div className="mx-auto min-h-screen w-full max-w-lg px-4 pb-10 pt-20">
+
+        {/* СТАРТ */}
+        {!started && (
+          <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
+            <div className="mb-5 inline-block rounded-full border border-foreground/20 bg-foreground/10 px-4 py-1.5 backdrop-blur-md">
               <p className="font-mono text-xs text-foreground/80">{questions.length} вопросов</p>
             </div>
-            <h2 className="mb-4 font-sans text-5xl font-light leading-tight tracking-tight text-foreground md:text-7xl">
+            <h2 className="mb-4 font-sans text-5xl font-light leading-tight tracking-tight text-foreground">
               Квиз
               <br />
               <span className="text-foreground/40">о войне</span>
             </h2>
-            <p className="mb-10 text-base leading-relaxed text-foreground/80 md:text-lg">
-              Проверьте, насколько хорошо вы знаете историю Великой Отечественной войны 1941–1945 годов.
+            <p className="mb-10 text-base leading-relaxed text-foreground/75">
+              Проверьте знания о Великой Отечественной войне 1941–1945 годов.
             </p>
             <MagneticButton size="lg" variant="primary" onClick={() => setStarted(true)}>
               Начать квиз
             </MagneticButton>
           </div>
-        ) : finished ? (
-          <div
-            className={`text-center transition-all duration-700 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
-            }`}
-          >
-            <div className="mb-6 inline-flex h-24 w-24 items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 backdrop-blur-md md:h-32 md:w-32">
-              <span className="font-sans text-3xl font-light text-foreground md:text-4xl">
-                {score}/{questions.length}
-              </span>
-            </div>
-            <h2 className="mb-3 font-sans text-4xl font-light tracking-tight text-foreground md:text-6xl">
-              {getResultText().title}
-            </h2>
-            <p className="mb-10 text-base leading-relaxed text-foreground/80 md:text-lg">
-              {getResultText().desc}
-            </p>
-            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <MagneticButton size="lg" variant="primary" onClick={handleRestart}>
-                Пройти снова
-              </MagneticButton>
-            </div>
+        )}
 
-            <div className="mt-10 border-t border-foreground/10 pt-8">
-              <p className="mb-4 font-mono text-xs text-foreground/50">/ Подписывайтесь на наши соцсети</p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <a
-                  href="https://max.ru/id5404105079_gos6"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm text-foreground/80 backdrop-blur-sm transition-all duration-300 hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
-                >
-                  <span className="font-mono text-xs text-foreground/40 transition-colors group-hover:text-foreground/60">MAX</span>
-                  <span>Max</span>
-                </a>
-                <a
-                  href="https://t.me/Youth_Center_Culture"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm text-foreground/80 backdrop-blur-sm transition-all duration-300 hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
-                >
-                  <span className="font-mono text-xs text-foreground/40 transition-colors group-hover:text-foreground/60">TG</span>
-                  <span>Telegram</span>
-                </a>
-                <a
-                  href="https://vk.com/mckit_sgugit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm text-foreground/80 backdrop-blur-sm transition-all duration-300 hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
-                >
-                  <span className="font-mono text-xs text-foreground/40 transition-colors group-hover:text-foreground/60">VK</span>
-                  <span>ВКонтакте</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div
-            className={`transition-all duration-500 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
-            }`}
-          >
-            <div className="mb-4 flex items-center justify-between">
+        {/* ВОПРОС */}
+        {started && !finished && (
+          <div className="flex flex-col gap-4 pt-2">
+            {/* Прогресс */}
+            <div className="flex items-center justify-between">
               <span className="font-mono text-xs text-foreground/50">
-                Вопрос {current + 1} / {questions.length}
+                {current + 1} / {questions.length}
               </span>
-              <span className="font-mono text-xs text-foreground/50">Очки: {score}</span>
+              <span className="font-mono text-xs text-foreground/50">★ {score}</span>
             </div>
-
-            <div className="mb-6 h-px w-full bg-foreground/10">
+            <div className="h-1 w-full overflow-hidden rounded-full bg-foreground/10">
               <div
-                className="h-px bg-foreground/40 transition-all duration-500"
+                className="h-1 rounded-full bg-foreground/50 transition-all duration-500"
                 style={{ width: `${(current / questions.length) * 100}%` }}
               />
             </div>
 
-            <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] md:gap-10">
-              {/* Left — image + question */}
-              <div className="flex flex-col gap-4">
-                <div className="relative overflow-hidden rounded-xl border border-foreground/10">
-                  <img
-                    key={question.image}
-                    src={question.image}
-                    alt={question.imageAlt}
-                    className="h-48 w-full object-cover opacity-90 transition-opacity duration-500 md:h-64"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                </div>
-                <h3 className="font-sans text-xl font-light leading-snug text-foreground md:text-2xl">
-                  {question.question}
-                </h3>
+            {/* Картинка */}
+            <div className="relative overflow-hidden rounded-2xl">
+              <img
+                key={question.image}
+                src={question.image}
+                alt={question.imageAlt}
+                className="h-52 w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+            </div>
+
+            {/* Вопрос */}
+            <h3 className="text-lg font-light leading-snug text-foreground">
+              {question.question}
+            </h3>
+
+            {/* Варианты */}
+            <div className="flex flex-col gap-2.5">
+              {question.options.map((option, idx) => {
+                let cls = "border-foreground/20 bg-foreground/5 text-foreground active:scale-[0.98]"
+                if (selected !== null) {
+                  if (idx === question.correct) cls = "border-green-400/70 bg-green-400/15 text-green-300"
+                  else if (idx === selected) cls = "border-red-400/70 bg-red-400/15 text-red-300"
+                  else cls = "border-foreground/10 bg-foreground/5 text-foreground/35"
+                }
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => handleAnswer(idx)}
+                    disabled={selected !== null}
+                    className={`w-full rounded-xl border px-4 py-3.5 text-left text-sm leading-snug transition-all duration-200 backdrop-blur-sm disabled:cursor-default ${cls}`}
+                  >
+                    <span className="mr-2.5 font-mono text-xs opacity-40">{String.fromCharCode(65 + idx)}.</span>
+                    {option}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Факт после ответа */}
+            {showFact && (
+              <div className="rounded-2xl border border-foreground/15 bg-foreground/8 px-4 py-4 backdrop-blur-sm">
+                <p className="mb-1.5 font-mono text-xs text-foreground/45">/ Исторический факт</p>
+                <p className="mb-4 text-sm leading-relaxed text-foreground/85">{question.fact}</p>
+                <button
+                  onClick={handleNext}
+                  className="w-full rounded-xl border border-foreground/30 bg-foreground/10 py-3 text-sm font-medium text-foreground transition-all active:scale-[0.98] hover:bg-foreground/15"
+                >
+                  {current + 1 >= questions.length ? "Посмотреть результат →" : "Следующий вопрос →"}
+                </button>
               </div>
+            )}
+          </div>
+        )}
 
-              {/* Right — answers + fact */}
+        {/* РЕЗУЛЬТАТ */}
+        {finished && (
+          <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
+            <div className="mb-6 flex h-28 w-28 items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 backdrop-blur-md">
+              <span className="font-sans text-3xl font-light text-foreground">
+                {score}/{questions.length}
+              </span>
+            </div>
+            <h2 className="mb-3 font-sans text-3xl font-light tracking-tight text-foreground">
+              {getResultText().title}
+            </h2>
+            <p className="mb-8 text-base leading-relaxed text-foreground/75">
+              {getResultText().desc}
+            </p>
+
+            <MagneticButton size="lg" variant="primary" onClick={handleRestart}>
+              Пройти снова
+            </MagneticButton>
+
+            {/* Соцсети */}
+            <div className="mt-10 w-full border-t border-foreground/10 pt-8">
+              <p className="mb-4 font-mono text-xs text-foreground/45">/ Подписывайтесь на наши соцсети</p>
               <div className="flex flex-col gap-3">
-                {question.options.map((option, idx) => {
-                  let borderClass = "border-foreground/20 hover:border-foreground/50"
-                  let bgClass = "bg-foreground/5 hover:bg-foreground/10"
-                  let textClass = "text-foreground"
-
-                  if (selected !== null) {
-                    if (idx === question.correct) {
-                      borderClass = "border-green-400/60"
-                      bgClass = "bg-green-400/10"
-                      textClass = "text-green-300"
-                    } else if (idx === selected && idx !== question.correct) {
-                      borderClass = "border-red-400/60"
-                      bgClass = "bg-red-400/10"
-                      textClass = "text-red-300"
-                    } else {
-                      borderClass = "border-foreground/10"
-                      bgClass = "bg-foreground/5"
-                      textClass = "text-foreground/40"
-                    }
-                  }
-
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => handleAnswer(idx)}
-                      disabled={selected !== null}
-                      className={`w-full rounded-lg border px-4 py-3 text-left text-sm font-light transition-all duration-300 backdrop-blur-sm disabled:cursor-default md:text-base ${borderClass} ${bgClass} ${textClass}`}
-                    >
-                      <span className="mr-3 font-mono text-xs opacity-50">
-                        {String.fromCharCode(65 + idx)}.
-                      </span>
-                      {option}
-                    </button>
-                  )
-                })}
-
-                {showFact && (
-                  <div className="mt-1 rounded-lg border border-foreground/15 bg-foreground/8 px-4 py-3 backdrop-blur-sm">
-                    <p className="mb-2 font-mono text-xs text-foreground/50">/ Исторический факт</p>
-                    <p className="mb-3 text-sm leading-relaxed text-foreground/85">{question.fact}</p>
-                    <MagneticButton variant="secondary" onClick={handleNext}>
-                      {current + 1 >= questions.length ? "Посмотреть результат" : "Следующий вопрос →"}
-                    </MagneticButton>
-                  </div>
-                )}
+                {socials.map((s) => (
+                  <a
+                    key={s.href}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between rounded-xl border border-foreground/20 bg-foreground/5 px-5 py-3.5 text-sm text-foreground/80 transition-all active:scale-[0.98] hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
+                  >
+                    <span>{s.label}</span>
+                    <span className="font-mono text-xs text-foreground/40">→</span>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
