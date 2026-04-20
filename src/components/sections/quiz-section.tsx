@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { MagneticButton } from "@/components/magnetic-button"
 
 const questions = [
   {
@@ -91,7 +90,6 @@ const socials = [
 ]
 
 export function QuizSection() {
-  const [started, setStarted] = useState(false)
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
   const [score, setScore] = useState(0)
@@ -123,7 +121,6 @@ export function QuizSection() {
     setScore(0)
     setFinished(false)
     setShowFact(false)
-    setStarted(false)
   }
 
   const getResultText = () => {
@@ -135,42 +132,22 @@ export function QuizSection() {
   }
 
   return (
-    <section className="w-screen shrink-0 snap-start overflow-y-auto">
-      <div className="mx-auto min-h-screen w-full max-w-lg px-4 pb-10 pt-20">
-
-        {/* СТАРТ */}
-        {!started && (
-          <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
-            <div className="mb-5 inline-block rounded-full border border-foreground/20 bg-foreground/10 px-4 py-1.5 backdrop-blur-md">
-              <p className="font-mono text-xs text-foreground/80">{questions.length} вопросов</p>
-            </div>
-            <h2 className="mb-4 font-sans text-5xl font-light leading-tight tracking-tight text-foreground">
-              Квиз
-              <br />
-              <span className="text-foreground/40">о войне</span>
-            </h2>
-            <p className="mb-10 text-base leading-relaxed text-foreground/75">
-              Проверьте знания о Великой Отечественной войне 1941–1945 годов.
-            </p>
-            <MagneticButton size="lg" variant="primary" onClick={() => setStarted(true)}>
-              Начать квиз
-            </MagneticButton>
-          </div>
-        )}
+    <section className="w-full">
+      <div className="mx-auto w-full max-w-lg px-5 pb-20 pt-4">
 
         {/* ВОПРОС */}
-        {started && !finished && (
-          <div className="flex flex-col gap-4 pt-2">
+        {!finished && (
+          <div className="flex flex-col gap-5">
             {/* Прогресс */}
             <div className="flex items-center justify-between">
               <span className="font-mono text-xs text-foreground/50">
-                {current + 1} / {questions.length}
+                Вопрос {current + 1} из {questions.length}
               </span>
               <span className="font-mono text-xs text-foreground/50">★ {score}</span>
             </div>
-            <div className="h-1 w-full overflow-hidden rounded-full bg-foreground/10">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
               <div
-                className="h-1 rounded-full bg-foreground/50 transition-all duration-500"
+                className="h-1.5 rounded-full bg-foreground/60 transition-all duration-500"
                 style={{ width: `${(current / questions.length) * 100}%` }}
               />
             </div>
@@ -181,20 +158,20 @@ export function QuizSection() {
                 key={question.image}
                 src={question.image}
                 alt={question.imageAlt}
-                className="h-52 w-full object-cover"
+                className="h-56 w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             </div>
 
             {/* Вопрос */}
-            <h3 className="text-lg font-light leading-snug text-foreground">
+            <h3 className="text-xl font-light leading-snug text-foreground">
               {question.question}
             </h3>
 
             {/* Варианты */}
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-3">
               {question.options.map((option, idx) => {
-                let cls = "border-foreground/20 bg-foreground/5 text-foreground active:scale-[0.98]"
+                let cls = "border-foreground/25 bg-foreground/8 text-foreground"
                 if (selected !== null) {
                   if (idx === question.correct) cls = "border-green-400/70 bg-green-400/15 text-green-300"
                   else if (idx === selected) cls = "border-red-400/70 bg-red-400/15 text-red-300"
@@ -205,9 +182,9 @@ export function QuizSection() {
                     key={idx}
                     onClick={() => handleAnswer(idx)}
                     disabled={selected !== null}
-                    className={`w-full rounded-xl border px-4 py-3.5 text-left text-sm leading-snug transition-all duration-200 backdrop-blur-sm disabled:cursor-default ${cls}`}
+                    className={`w-full rounded-2xl border px-5 py-4 text-left text-base leading-snug transition-all duration-200 active:scale-[0.97] disabled:cursor-default ${cls}`}
                   >
-                    <span className="mr-2.5 font-mono text-xs opacity-40">{String.fromCharCode(65 + idx)}.</span>
+                    <span className="mr-3 font-mono text-xs opacity-40">{String.fromCharCode(65 + idx)}.</span>
                     {option}
                   </button>
                 )
@@ -216,12 +193,12 @@ export function QuizSection() {
 
             {/* Факт после ответа */}
             {showFact && (
-              <div className="rounded-2xl border border-foreground/15 bg-foreground/8 px-4 py-4 backdrop-blur-sm">
-                <p className="mb-1.5 font-mono text-xs text-foreground/45">/ Исторический факт</p>
-                <p className="mb-4 text-sm leading-relaxed text-foreground/85">{question.fact}</p>
+              <div className="rounded-2xl border border-foreground/15 bg-black/30 px-5 py-5 backdrop-blur-sm">
+                <p className="mb-2 font-mono text-xs text-foreground/45">/ Исторический факт</p>
+                <p className="mb-5 text-sm leading-relaxed text-foreground/85">{question.fact}</p>
                 <button
                   onClick={handleNext}
-                  className="w-full rounded-xl border border-foreground/30 bg-foreground/10 py-3 text-sm font-medium text-foreground transition-all active:scale-[0.98] hover:bg-foreground/15"
+                  className="w-full rounded-2xl bg-foreground/90 py-4 text-base font-semibold text-background transition-all active:scale-[0.97]"
                 >
                   {current + 1 >= questions.length ? "Посмотреть результат →" : "Следующий вопрос →"}
                 </button>
@@ -232,7 +209,7 @@ export function QuizSection() {
 
         {/* РЕЗУЛЬТАТ */}
         {finished && (
-          <div className="flex min-h-[80vh] flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center pt-8 text-center">
             <div className="mb-6 flex h-28 w-28 items-center justify-center rounded-full border border-foreground/20 bg-foreground/10 backdrop-blur-md">
               <span className="font-sans text-3xl font-light text-foreground">
                 {score}/{questions.length}
@@ -245,9 +222,12 @@ export function QuizSection() {
               {getResultText().desc}
             </p>
 
-            <MagneticButton size="lg" variant="primary" onClick={handleRestart}>
+            <button
+              onClick={handleRestart}
+              className="w-full rounded-2xl bg-foreground/90 py-4 text-base font-semibold text-background transition-all active:scale-[0.97]"
+            >
               Пройти снова
-            </MagneticButton>
+            </button>
 
             {/* Соцсети */}
             <div className="mt-10 w-full border-t border-foreground/10 pt-8">
@@ -259,10 +239,10 @@ export function QuizSection() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-xl border border-foreground/20 bg-foreground/5 px-5 py-3.5 text-sm text-foreground/80 transition-all active:scale-[0.98] hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
+                    className="flex items-center justify-between rounded-2xl border border-foreground/20 bg-foreground/5 px-5 py-4 text-base text-foreground/80 transition-all active:scale-[0.97] hover:bg-foreground/10 hover:text-foreground"
                   >
                     <span>{s.label}</span>
-                    <span className="font-mono text-xs text-foreground/40">→</span>
+                    <span className="font-mono text-sm text-foreground/40">→</span>
                   </a>
                 ))}
               </div>
