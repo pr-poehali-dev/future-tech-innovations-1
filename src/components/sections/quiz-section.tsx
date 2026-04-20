@@ -181,6 +181,39 @@ export function QuizSection() {
                 Пройти снова
               </MagneticButton>
             </div>
+
+            <div className="mt-10 border-t border-foreground/10 pt-8">
+              <p className="mb-4 font-mono text-xs text-foreground/50">/ Подписывайтесь на наши соцсети</p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <a
+                  href="https://max.ru/id5404105079_gos6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm text-foreground/80 backdrop-blur-sm transition-all duration-300 hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
+                >
+                  <span className="font-mono text-xs text-foreground/40 transition-colors group-hover:text-foreground/60">MAX</span>
+                  <span>Max</span>
+                </a>
+                <a
+                  href="https://t.me/Youth_Center_Culture"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm text-foreground/80 backdrop-blur-sm transition-all duration-300 hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
+                >
+                  <span className="font-mono text-xs text-foreground/40 transition-colors group-hover:text-foreground/60">TG</span>
+                  <span>Telegram</span>
+                </a>
+                <a
+                  href="https://vk.com/mckit_sgugit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/5 px-5 py-2.5 text-sm text-foreground/80 backdrop-blur-sm transition-all duration-300 hover:border-foreground/40 hover:bg-foreground/10 hover:text-foreground"
+                >
+                  <span className="font-mono text-xs text-foreground/40 transition-colors group-hover:text-foreground/60">VK</span>
+                  <span>ВКонтакте</span>
+                </a>
+              </div>
+            </div>
           </div>
         ) : (
           <div
